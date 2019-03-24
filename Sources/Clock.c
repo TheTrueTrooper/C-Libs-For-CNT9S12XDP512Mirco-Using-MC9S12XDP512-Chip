@@ -18,7 +18,8 @@
 // for clock
 byte PreScaler;
 // for Intrupt
-void(*Vtimer0Fun)(byte* ValueInOuts);
+void(*Vtimer0Func)(byte* ValueInOuts);
+//small tick for minimum sizing.
 word Vtimer0SmallTick;
 word Vtimer0BigTick;
 word Vtimer0BigTickCount;
@@ -68,9 +69,9 @@ void CLockInIt(byte preScaler)
     PreScaler=128;
   }
   TIOS = 0; // set to output compares to non on will be set in channels in
-  TCTL2 =0; // set channels toggle styles to deffualt will se in its init
+  TCTL2 =0; // set channels toggle styles to defualt will se in its init
   TIE = 0; // set no channel interup will turn on as needed
-  TFLG1 = 0xFF; // clear all flags with the od mex
+  TFLG1 = 0xFF; // clear all flags with by setting. odd chip specific
 
 }
 
@@ -106,7 +107,7 @@ interrupt VectorNumber_Vtimch0 void TimerInterval(void)
  {
  TC0 += Vtimer0SmallTick;
  Vtimer0BigTickCount = 0;
- (*Vtimer0Fun)(ValueInOut);
+ (*Vtimer0Func)(ValueInOut);
  }
 
 }
